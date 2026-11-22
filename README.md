@@ -1,5 +1,7 @@
 # hf2lms
 
+![hf2lms screenshot](screenshot.png)
+
 An interactive terminal UI (TUI) built in Rust that scans a Hugging Face cache for `.gguf` models and hard-links them into an LM Studio models directory without duplicating large weight files.
 
 ## Usage

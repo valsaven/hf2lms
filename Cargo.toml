@@ -1,0 +1,21 @@
+[package]
+name = "hf2lms"
+version = "0.1.0"
+edition = "2024"
+description = "Link Hugging Face GGUF models into LM Studio without copying weights"
+license = "MIT"
+repository = "https://github.com/valsaven/hf2lms"
+readme = "README.md"
+keywords = ["gguf", "huggingface", "lmstudio", "hardlink", "tui"]
+categories = ["command-line-utilities"]
+
+[dependencies]
+ratatui = "0.28"
+crossterm = "0.28"
+anyhow = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+same-file = "1"
+
+[dev-dependencies]
+tempfile = "3"

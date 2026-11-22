@@ -4,6 +4,13 @@
 
 An interactive terminal UI (TUI) built in Rust that scans a Hugging Face cache for `.gguf` models and hard-links them into an LM Studio models directory without duplicating large weight files.
 
+> [!IMPORTANT]
+> Do not delete models with LM Studio's own delete button. Delete the `.gguf` file/link in the models folder instead, then run `hf2lms` to add it again.
+
+LM Studio keeps its own model registry and metadata caches under `~/.lmstudio/.internal/`. Deleting from the UI records the model as removed and can move the file to the Recycle Bin. A new hard link from `hf2lms` points to the same blob and keeps its old modification time, so LM Studio may still treat it as the deleted file: the file exists on disk but the model stays invisible in My Models. Deleting only the link file leaves no such record.
+
+If you already deleted a model in the UI, restart LM Studio and rescan the models folder. If it is still missing, rebuild `model-index-cache.json`, `gguf-metadata-cache.json` and `model-data.json` — back them up first.
+
 ## Usage
 
 ```text

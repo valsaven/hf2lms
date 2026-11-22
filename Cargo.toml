@@ -1,6 +1,6 @@
 [package]
 name = "hf2lms"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 description = "Link Hugging Face GGUF models into LM Studio without copying weights"
 license = "MIT"

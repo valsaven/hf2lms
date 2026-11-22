@@ -87,13 +87,25 @@ fn prompted(override_path: Option<PathBuf>, prompt: &str) -> Result<PathBuf> {
     }
 }
 
+fn apply_overrides(mut config: Config, hf: Option<PathBuf>, lms: Option<PathBuf>) -> Config {
+    if let Some(path) = hf {
+        config.hf_cache = path;
+    }
+    if let Some(path) = lms {
+        config.lmstudio_models = path;
+    }
+    config
+}
+
 pub(crate) fn load_or_create_config(hf: Option<PathBuf>, lms: Option<PathBuf>) -> Result<Config> {
     let path = config_path();
 
     if path.exists() {
         let data =
             fs::read_to_string(&path).with_context(|| format!("reading {}", path.display()))?;
-        return serde_json::from_str(&data).with_context(|| format!("parsing {}", path.display()));
+        let config: Config =
+            serde_json::from_str(&data).with_context(|| format!("parsing {}", path.display()))?;
+        return Ok(apply_overrides(config, hf, lms));
     }
 
     println!("First run. Configure paths:");
@@ -110,4 +122,22 @@ pub(crate) fn load_or_create_config(hf: Option<PathBuf>, lms: Option<PathBuf>) -
     println!("Config saved to {}", path.display());
 
     Ok(config)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn overrides_replace_only_the_given_saved_paths() {
+        let config = Config {
+            hf_cache: PathBuf::from("saved/hf"),
+            lmstudio_models: PathBuf::from("saved/lms"),
+        };
+
+        let config = apply_overrides(config, Some(PathBuf::from("cli/hf")), None);
+
+        assert_eq!(config.hf_cache, PathBuf::from("cli/hf"));
+        assert_eq!(config.lmstudio_models, PathBuf::from("saved/lms"));
+    }
 }

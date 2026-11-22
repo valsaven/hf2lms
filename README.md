@@ -11,6 +11,30 @@ LM Studio keeps its own model registry and metadata caches under `~/.lmstudio/.i
 
 If you already deleted a model in the UI, restart LM Studio and rescan the models folder. If it is still missing, rebuild `model-index-cache.json`, `gguf-metadata-cache.json` and `model-data.json` — back them up first.
 
+## Installation
+
+### From crates.io
+
+With Rust installed, run:
+
+```sh
+cargo install hf2lms
+```
+
+### From a GitHub release
+
+Download the prebuilt binary for your platform from the [Releases page](https://github.com/valsaven/hf2lms/releases) (latest release) and put it in a directory on your `PATH`.
+
+### From source
+
+```sh
+git clone https://github.com/valsaven/hf2lms.git
+cd hf2lms
+cargo build --release
+```
+
+The binary is then at `target/release/hf2lms` (`hf2lms.exe` on Windows). Alternatively, `cargo install --path .` installs it into your Cargo bin directory.
+
 ## Usage
 
 ```text
